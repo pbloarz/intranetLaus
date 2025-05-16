@@ -26,7 +26,7 @@ class TimesheetResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::user()->id);
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->orderby('id','desc');
     }
 
 
@@ -49,8 +49,7 @@ class TimesheetResource extends Resource
                 ->required(),
             Forms\Components\DateTimePicker::make('day_in')
                 ->required(),
-            Forms\Components\DateTimePicker::make('day_out')
-                ->required(),
+            Forms\Components\DateTimePicker::make('day_out'),
         ]);
     }
 
