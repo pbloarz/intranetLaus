@@ -44,24 +44,24 @@ class EditHoliday extends EditRecord
         Mail::to($user)->send(new HolidayApproved($data));
         if ($record->type === 'approved') {
             Notification::make()
-                ->title('📤 Solicitud aprobada')
-                ->body('📝 Tu solicitud de vacaciones ha sido aprobada.')
+                ->title('✅ ¡Solicitud de Vacaciones Aprobada!')
+                ->body('🎉 ¡Felicidades! Tu solicitud de vacaciones ha sido aprobada. ¡Disfruta de tu tiempo libre! 🌴')
                 ->success()
                 ->send()
                 ->sendToDatabase($user);
         } else if ($record->type === 'decline') {
             Mail::to($user)->send(new HolidayDecline($data));
             Notification::make()
-                ->title('📤 Solicitud rechasada')
-                ->body('📝 Tu solicitud de vacaciones ha sido rechazada.')
+                ->title('❌ Solicitud de Vacaciones No Aprobada')
+                ->body('😔 Lo sentimos, tu solicitud de vacaciones no ha sido aprobada. Por favor, contacta con tu supervisor para más detalles.')
                 ->success()
                 ->send()
                 ->sendToDatabase($user);
         } else if ($record->type === 'pending') {
             Mail::to($user)->send(new HolidayPending($data));
             Notification::make()
-                ->title('📤 Solicitud pendiente')
-                ->body('📝 Tu solicitud de vacaciones ha sido pendiente.')
+                ->title('⏳ Solicitud de Vacaciones en Revisión')
+                ->body('👀 Tu solicitud de vacaciones está siendo revisada. Te notificaremos cuando tengamos una respuesta.')
                 ->success()
                 ->send()
                 ->sendToDatabase($user);
