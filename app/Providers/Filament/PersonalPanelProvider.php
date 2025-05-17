@@ -28,7 +28,12 @@ class PersonalPanelProvider extends PanelProvider
             ->login()
             ->default()
             ->colors([
-                'primary' => 'rgb(241, 99, 229)',
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Purple,
+                'success' => Color::Amber,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Personal/Resources'), for: 'App\\Filament\\Personal\\Resources')
             ->discoverPages(in: app_path('Filament/Personal/Pages'), for: 'App\\Filament\\Personal\\Pages')
@@ -51,6 +56,7 @@ class PersonalPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->databaseNotifications()
             ->authMiddleware([
                 Authenticate::class,
             ]);
