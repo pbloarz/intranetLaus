@@ -21,20 +21,24 @@ class HolidayResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
     protected static ?string $navigationGroup = 'System management';
     protected static ?int $navigationSort = 9;
-    
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('calendar_id')
-                    ->relationship('calendar' , 'name')
+                    ->relationship('calendar', 'name')
                     ->searchable()
                     ->preload()
                     ->live()
                     ->required(),
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user' , 'name')
+                    ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->live()
@@ -68,12 +72,12 @@ class HolidayResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
-                ->badge()
-                ->color( fn (string $state): string => match ($state) {
-                    'decline' => 'danger',
-                    'approved' => 'success',
-                    'pending' => 'warning',
-                }),
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'decline' => 'danger',
+                        'approved' => 'success',
+                        'pending' => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

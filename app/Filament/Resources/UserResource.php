@@ -29,13 +29,16 @@ class UserResource extends Resource
     protected static ?string $navigationLabel = 'Employees';
     protected static ?string $navigationGroup = 'Employee management';
     protected static ?int $navigationSort = 2;
-
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
-    
+
     public static function form(Form $form): Form
     {
         return $form
@@ -94,6 +97,12 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('phone')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+
                     ]),
 
 

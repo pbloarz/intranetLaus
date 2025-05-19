@@ -25,6 +25,10 @@ class HolidayResource extends Resource
     {
         return parent::getEloquentQuery()->where('user_id', Auth::user()->id);
     }
+    public static function getNavigationBadge(): ?string
+    {
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -60,12 +64,12 @@ class HolidayResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
-                ->badge()
-                ->color( fn (string $state): string => match ($state) {
-                    'decline' => 'danger',
-                    'approved' => 'success',
-                    'pending' => 'warning',
-                }),
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'decline' => 'danger',
+                        'approved' => 'success',
+                        'pending' => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

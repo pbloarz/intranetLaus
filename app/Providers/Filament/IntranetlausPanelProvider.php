@@ -17,6 +17,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use Swis\Filament\Backgrounds\ImageProviders\MyImages;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Shanerbaner82\PanelRoles\PanelRoles;
 
 class IntranetlausPanelProvider extends PanelProvider
 {
@@ -53,6 +57,17 @@ class IntranetlausPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugins([
+                FilamentBackgroundsPlugin::make()
+                    ->imageProvider(
+                        MyImages::make()
+                            ->directory('images/swisnl/filament-backgrounds/triangles')
+                    ),
+                FilamentShieldPlugin::make(),
+                PanelRoles::make()
+                    ->roleToAssign('super_admin')
+                    ->restrictedRoles(['super_admin']),
+                ]);
     }
 }

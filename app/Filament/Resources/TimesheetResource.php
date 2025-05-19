@@ -23,7 +23,11 @@ class TimesheetResource extends Resource
     protected static ?string $navigationGroup = 'Employee management';
     protected static ?int $navigationSort = 3;
 
-    
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -89,10 +93,10 @@ class TimesheetResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('type')
-                ->options([
-                    'work' => 'Working',
-                    'wrk' => 'In Pause',
-                ]),
+                    ->options([
+                        'work' => 'Working',
+                        'wrk' => 'In Pause',
+                    ]),
                 SelectFilter::make('user.name')->relationship('user', 'name'),
             ])
             ->actions([
