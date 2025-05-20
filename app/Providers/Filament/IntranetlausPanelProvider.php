@@ -20,10 +20,16 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Shanerbaner82\PanelRoles\PanelRoles;
 
 class IntranetlausPanelProvider extends PanelProvider
 {
+    public static function shouldRegisterSpotlight(): bool
+    {
+        return true;
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -32,7 +38,12 @@ class IntranetlausPanelProvider extends PanelProvider
             ->path('intranetlaus')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Purple,
+                'success' => Color::Amber,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -64,10 +75,11 @@ class IntranetlausPanelProvider extends PanelProvider
                         MyImages::make()
                             ->directory('images/swisnl/filament-backgrounds/triangles')
                     ),
+                SpotlightPlugin::make(),
                 FilamentShieldPlugin::make(),
                 PanelRoles::make()
                     ->roleToAssign('super_admin')
                     ->restrictedRoles(['super_admin']),
-                ]);
+            ]);
     }
 }

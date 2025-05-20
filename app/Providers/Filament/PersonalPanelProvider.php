@@ -17,6 +17,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Shanerbaner82\PanelRoles\PanelRoles;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Swis\Filament\Backgrounds\ImageProviders\MyImages;
@@ -69,9 +70,10 @@ class PersonalPanelProvider extends PanelProvider
                         MyImages::make()
                             ->directory('images/swisnl/filament-backgrounds/curated-by-swis')
                     ),
+                    SpotlightPlugin::make(),
                 PanelRoles::make()
-                    ->roleToAssign('developer')
-                    ->restrictedRoles(['super_admin','developer']),
+                    ->roleToAssign('client')
+                    ->restrictedRoles(['super_admin','client']),
             ]);
     }
 }
