@@ -15,6 +15,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "pxlrbt/filament-excel": "*",
         "shanerbaner82/panel-roles": "^0.0.3",
         "swisnl/filament-backgrounds": "^1.1"
     },
