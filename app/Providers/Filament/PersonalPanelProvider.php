@@ -71,8 +71,7 @@ class PersonalPanelProvider extends PanelProvider
                     ),
                 PanelRoles::make()
                     ->roleToAssign('developer')
-                    ->restrictedRoles(['developer','super_admin']),
-
+                    ->restrictedRoles(['super_admin','developer']),
             ]);
     }
 }
