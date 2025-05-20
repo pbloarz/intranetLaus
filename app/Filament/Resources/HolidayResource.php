@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class HolidayResource extends Resource
 {
@@ -21,10 +22,18 @@ class HolidayResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
     protected static ?string $navigationGroup = 'System management';
     protected static ?int $navigationSort = 9;
-
+    
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->where('type','pending')->count() > 0 ? 'warning' : 'primary';
+    }
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'The number of pending holidays';
     }
 
     public static function form(Form $form): Form

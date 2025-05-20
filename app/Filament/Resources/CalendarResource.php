@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarResource extends Resource
 {
@@ -25,6 +26,14 @@ class CalendarResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 0 ? 'warning' : 'danger';
+    }
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'The number of Calendaries';
     }
     public static function form(Form $form): Form
     {

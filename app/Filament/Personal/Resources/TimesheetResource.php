@@ -33,6 +33,15 @@ class TimesheetResource extends Resource
         return static::getModel()::count();
     }
 
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->count() > 0 ? 'warning' : 'primary';
+    }
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'The number of timesheet';
+    }
+
 
     public static function form(Form $form): Form
     {

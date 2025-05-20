@@ -25,6 +25,14 @@ class DepartamentResource extends Resource
     {
         return static::getModel()::count();
     }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 0 ? 'warning' : 'danger';
+    }
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'The number of departaments';
+    }
     public static function form(Form $form): Form
     {
         return $form

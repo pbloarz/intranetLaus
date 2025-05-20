@@ -14,6 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class TimesheetResource extends Resource
 {
@@ -25,7 +26,15 @@ class TimesheetResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return parent::getEloquentQuery()->count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return parent::getEloquentQuery()->count() > 0 ? 'warning' : 'primary';
+    }
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'The number of timessheet';
     }
 
 
