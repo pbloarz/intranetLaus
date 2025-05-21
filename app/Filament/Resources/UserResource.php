@@ -102,6 +102,10 @@ class UserResource extends Resource
                             ->multiple()
                             ->preload()
                             ->searchable(),
+                        Forms\Components\Select::make('departament_id')
+                            ->relationship('departament', 'name')
+                            ->preload()
+                            ->searchable()
 
                     ]),
 
@@ -116,6 +120,8 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('departament.name')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country.name')

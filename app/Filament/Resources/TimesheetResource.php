@@ -80,6 +80,9 @@ class TimesheetResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('user.departament.name')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->searchable()
@@ -124,18 +127,14 @@ class TimesheetResource extends Resource
                             ->askForWriterType()
                             ->withFilename('Timesheet_' . date('Y-m-d') . ' _ export')
                             ->withColumns([
-                                Column::make('user.name')
-                                    ->heading('Name')
-                                    ->width(20),
-                                Column::make('user.email')
-                                    ->heading('Email')
-                                    ->width(20),
-                                Column::make('user.phone')->heading('phone'),
+                                Column::make('user.name')->heading('Name')->width(20),
+                                Column::make('user.email')->heading('Email')->width(20),
+                                Column::make('user.phone')->heading('Phone'),
                                 Column::make('user.city.name')->heading('City'),
-                                Column::make('user.address')->heading('address'),
-                                Column::make('user.city.name')->heading('city'),
-                                Column::make('user.country.name')->heading('country'),
-                                // Column::make('user.department')->heading('department'),
+                                Column::make('user.address')->heading('Address'),
+                                Column::make('user.city.name')->heading('City'),
+                                Column::make('user.country.name')->heading('Country'),
+                                Column::make('user.departament.name')->heading('Department'),
 
                             ]),
                         ExcelExport::make('form')->fromForm()

@@ -28,6 +28,7 @@ class User extends Authenticatable
         'city_id',
         'address',
         'phone',
+        'departament_id',
     ];
 
     // protected $guarded = [];
@@ -67,19 +68,23 @@ class User extends Authenticatable
 
     public function calendars()
     {
-        $this->belongsToMany(Calendar::class);
+        return $this->belongsToMany(Calendar::class);
     }
     public function departaments()
     {
-        $this->belongsTo(Departament::class);
+        return $this->belongsTo(Departament::class);
     }
     public function holidays()
     {
-        $this->hasMany(Holiday::class);
+       return  $this->hasMany(Holiday::class);
     }
     public function timesheets()
     {
-        $this->hasMany(Timesheet::class);
+        return $this->hasMany(Timesheet::class);
+    }
+    public function departament()
+    {
+       return $this->belongsTo(Departament::class);
     }
     
 }

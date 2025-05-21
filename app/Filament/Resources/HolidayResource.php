@@ -75,6 +75,9 @@ class HolidayResource extends Resource
                     ->numeric()
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.departament.name')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->searchable()
@@ -116,17 +119,17 @@ class HolidayResource extends Resource
                         ExcelExport::make()->withColumns([
                             Column::make('id'),
                             Column::make('calendar.name')->heading('Calendar'),
-                            Column::make('user.name')->heading('name'),
-                            Column::make('day'),
-                            Column::make('type'),
-                            Column::make('created_at'),
-                            Column::make('updated_at'),
-                            Column::make('user.email')->heading('email'),
-                            Column::make('user.phone')->heading('phone'),
-                            Column::make('user.address')->heading('address'),
-                            Column::make('user.city.name')->heading('city'),
-                            Column::make('user.country.name')->heading('country'),
-                            // Column::make('user.department')->heading('department'),
+                            Column::make('user.name')->heading('Name'),
+                            Column::make('day')->heading('Day'),
+                            Column::make('type')->heading('Type'),
+                            Column::make('created_at')->heading('Created at'),
+                            Column::make('updated_at')->heading('Updated at'),
+                            Column::make('user.email')->heading('Dmail'),
+                            Column::make('user.phone')->heading('Phone'),
+                            Column::make('user.address')->heading('Address'),
+                            Column::make('user.city.name')->heading('City'),
+                            Column::make('user.country.name')->heading('Country'),
+                            Column::make('user.departament.name')->heading('Department'),
                         ]),
                         ExcelExport::make('form')
                             ->fromForm()
