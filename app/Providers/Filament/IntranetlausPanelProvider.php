@@ -20,6 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Navigation\MenuItem;
 use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Shanerbaner82\PanelRoles\PanelRoles;
 
@@ -80,6 +81,22 @@ class IntranetlausPanelProvider extends PanelProvider
                 PanelRoles::make()
                     ->roleToAssign('super_admin')
                     ->restrictedRoles(['super_admin']),
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Client')
+                    ->url('/personal')
+                    ->icon('heroicon-c-arrow-path')
+                    ->visible(function () {
+                        if (auth()->user()?->hasAnyRole([
+                            'super_admin','client'
+                        ])) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                        return false;
+                    }),
             ]);
     }
 }
