@@ -14,6 +14,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class HolidayResource extends Resource
 {
@@ -22,14 +25,14 @@ class HolidayResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
     protected static ?string $navigationGroup = 'System management';
     protected static ?int $navigationSort = 9;
-    
+
     public static function getNavigationBadge(): ?string
     {
         return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->count();
     }
     public static function getNavigationBadgeColor(): ?string
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->where('type','pending')->count() > 0 ? 'warning' : 'primary';
+        return parent::getEloquentQuery()->where('user_id', Auth::user()->id)->where('type', 'pending')->count() > 0 ? 'warning' : 'primary';
     }
     public static function getNavigationBadgeTooltip(): ?string
     {
@@ -109,6 +112,27 @@ class HolidayResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()->exports([
+                        ExcelExport::make()->withColumns([
+                            Column::make('id'),
+                            Column::make('calendar.name')->heading('Calendar'),
+                            Column::make('user.name')->heading('name'),
+                            Column::make('day'),
+                            Column::make('type'),
+                            Column::make('created_at'),
+                            Column::make('updated_at'),
+                            Column::make('user.email')->heading('email'),
+                            Column::make('user.phone')->heading('phone'),
+                            Column::make('user.address')->heading('address'),
+                            Column::make('user.city.name')->heading('city'),
+                            Column::make('user.country.name')->heading('country'),
+                            // Column::make('user.department')->heading('department'),
+                        ]),
+                        ExcelExport::make('form')
+                            ->fromForm()
+                            ->askForFilename()
+                            ->askForWriterType()
+                    ]),
                 ]),
             ]);
     }

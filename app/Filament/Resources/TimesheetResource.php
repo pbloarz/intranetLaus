@@ -132,6 +132,11 @@ class TimesheetResource extends Resource
                                     ->width(20),
                                 Column::make('user.phone')->heading('phone'),
                                 Column::make('user.city.name')->heading('City'),
+                                Column::make('user.address')->heading('address'),
+                                Column::make('user.city.name')->heading('city'),
+                                Column::make('user.country.name')->heading('country'),
+                                // Column::make('user.department')->heading('department'),
+
                             ]),
                         ExcelExport::make('form')->fromForm()
                             ->askForFilename()
