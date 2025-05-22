@@ -79,7 +79,12 @@ class TimesheetResource extends Resource
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'work' => 'success',
+                        'pause' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('user.departament.name')
                     ->searchable()
                     ->sortable(),
@@ -90,11 +95,21 @@ class TimesheetResource extends Resource
                 Tables\Columns\TextColumn::make('day_in')
                     ->searchable()
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color(fn(Timesheet $record): string => match($record->type) {
+                        'work' =>'success',
+                        'pause' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('day_out')
                     ->searchable()
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color(fn(Timesheet $record): string => match($record->type) {
+                        'work' =>'success',
+                        'pause' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->searchable()
                     ->dateTime()
@@ -117,6 +132,17 @@ class TimesheetResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('report')
+                    ->label('PDF')
+                    ->toolTip('Generate report the timesheet of the employee')
+                    ->icon('heroicon-o-printer')
+                    ->color('danger')
+                    ->visible(fn(Timesheet $record): int => $record->where('user_id', $record->user->id)->count() > 0)
+                    ->url(
+                        fn(Timesheet $record): string => route('download.timesheet.pdf', ['user' => $record->user_id]),
+                        shouldOpenInNewTab: true,
+
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

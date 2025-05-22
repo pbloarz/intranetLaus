@@ -22,4 +22,12 @@ class ListUsers extends ListRecords
                 ->slideOver()
         ];
     }
+
+    protected function createTimesheetPdfFromUsers(): Actions\Action
+    {
+        return Actions\Action::make('createTimesheetPdfFromUsers')
+            ->label('Create Timesheet Pdf From Users')
+            ->icon('heroicon-o-play')
+            ->color('danger');
+    }
 }

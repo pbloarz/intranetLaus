@@ -85,7 +85,13 @@ class HolidayResource extends Resource
                 Tables\Columns\TextColumn::make('day')
                     ->date()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->badge()
+                    ->color(fn(Holiday $record): string => match ($record->type) {
+                        'approved' => 'success',
+                        'decline' => 'danger',
+                        'pending' => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('type')
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
@@ -110,6 +116,17 @@ class HolidayResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('report')
+                    ->label('PDF')
+                    ->toolTip('Generate report the timesheet of the employee')
+                    ->icon('heroicon-o-printer')
+                    ->color('danger')
+                    ->visible(fn(Holiday $record): int => $record->where('user_id', $record->user->id)->count() > 0)
+                    ->url(
+                        fn(Holiday $record): string => route('download.holidays.pdf', ['user' => $record->user, 'holiday' => $record]),
+                        shouldOpenInNewTab: true,
+
+                    ),
 
             ])
             ->bulkActions([

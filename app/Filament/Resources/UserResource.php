@@ -144,6 +144,17 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('report')
+                    ->label('PDF')
+                    ->toolTip('Generate report the timesheet of the employee')
+                    ->icon('heroicon-o-printer')
+                    ->color('danger')
+                    ->url(
+                        fn(User $record): string => route('download.timesheet.pdf', ['user' => $record->id]),
+                        shouldOpenInNewTab: true,
+                    
+                    ),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
