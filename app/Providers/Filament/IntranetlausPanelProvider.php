@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\UserResource\Pages\EditProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,6 +38,10 @@ class IntranetlausPanelProvider extends PanelProvider
             ->default()
             ->id('intranetlaus')
             ->path('intranetlaus')
+            ->font('Poppins')
+            ->brandName('Administratie')
+            ->brandLogo(asset('laus/logo.png'))
+            ->favicon(asset('laus/favicon.png'))
             ->login()
             ->colors([
                 'gray' => Color::Gray,

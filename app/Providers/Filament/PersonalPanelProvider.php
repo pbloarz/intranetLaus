@@ -30,6 +30,10 @@ class PersonalPanelProvider extends PanelProvider
         return $panel
             ->id('personal')
             ->path('personal')
+            ->font('Poppins')
+            ->brandName('Administratie')
+            ->brandLogo(asset('laus/logo.png'))
+            ->favicon(asset('laus/favicon.png'))
             ->login()
             ->default()
             ->colors([
