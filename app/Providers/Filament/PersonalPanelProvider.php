@@ -28,6 +28,8 @@ class PersonalPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->profile(isSimple: false)
+            ->registration()
             ->id('personal')
             ->path('personal')
             ->font('Poppins')
@@ -95,7 +97,8 @@ class PersonalPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label('Profile')
                     ->icon('heroicon-c-user-circle')
-                    ->url('/personal/users/editProfile'),
+                    ->url('/personal/profile'),
+                    
             ]);
     }
 }
