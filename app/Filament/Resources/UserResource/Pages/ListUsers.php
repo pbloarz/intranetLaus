@@ -7,6 +7,8 @@ use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Imports\MyUserImport;
+use App\Models\User;
+use Filament\Forms\Components\Select;
 
 class ListUsers extends ListRecords
 {
@@ -19,7 +21,9 @@ class ListUsers extends ListRecords
             ExcelImportAction::make()
                 ->color("success")
                 ->use(MyUserImport::class)
-                ->slideOver()
+                ->slideOver(),
+           
+
         ];
     }
 

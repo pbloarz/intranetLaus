@@ -31,4 +31,14 @@ class PdfController extends Controller
         $pdf = Pdf::loadView('pdfs.holidaysAll', ['holidays' => $holidays, 'users' => $users]);
         return $pdf->download('holidays_all_'.Carbon::now(). '.pdf');
     }
+
+    public function timesheetRecordsToUserAll(User $user)
+    {
+    
+        $timesheetsToUser = $user->timessheets;
+        $timesheets = $user->timesheets; // Obtén todas las timesheets del usuario
+
+        $pdf = Pdf::loadView('pdfs.timesheet', ['users' => $timesheetsToUser, 'user' => $user, 'timesheets' => $timesheets]);
+        return $pdf->download('timesheet_all_'.Carbon::now(). '.pdf');
+    }
 }

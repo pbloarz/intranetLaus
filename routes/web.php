@@ -21,3 +21,4 @@ Route::get('/', function () {
 Route::get('/personal/pruebas/{user}',[PdfController::class, 'timesheetRecords'])->name('download.timesheet.pdf');
 Route::get('/download/holidays/pdf/{user}/{holiday}',[PdfController::class, 'holidayRecords'])->name('download.holidays.pdf');
 Route::get('/download/holidays/pdf',[PdfController::class, 'holidayAllRecords'])->name('download.holidays.all.pdf');
+Route::get('/download/timesheetRecordsToUserAll/{user}',[PdfController::class, 'timesheetRecordsToUserAll'])->name('download.timesheetRecordsToUserAll.pdf');
