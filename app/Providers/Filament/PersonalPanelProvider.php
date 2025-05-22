@@ -92,6 +92,10 @@ class PersonalPanelProvider extends PanelProvider
                         }
                         return false;
                     }),
+                MenuItem::make()
+                    ->label('Profile')
+                    ->icon('heroicon-c-user-circle')
+                    ->url('/personal/users/editProfile'),
             ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\UserResource\Pages\EditProfile;
+use App\Filament\Resources\UserResource\Pages\EditUserProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -53,6 +54,7 @@ class IntranetlausPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                EditUserProfile::class
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -92,7 +94,8 @@ class IntranetlausPanelProvider extends PanelProvider
                     ->icon('heroicon-c-arrow-path')
                     ->visible(function () {
                         if (auth()->user()?->hasAnyRole([
-                            'super_admin','client'
+                            'super_admin',
+                            'client'
                         ])) {
                             return true;
                         } else {
@@ -100,6 +103,10 @@ class IntranetlausPanelProvider extends PanelProvider
                         }
                         return false;
                     }),
+                MenuItem::make()
+                    ->label('Profile')
+                    ->icon('heroicon-c-user-circle')
+                    ->url('/intranetlaus/users/editProfile'),
             ]);
     }
 }
