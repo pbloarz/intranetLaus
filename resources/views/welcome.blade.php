@@ -5,10 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Intranet Laus - Sistema de Gestión</title>
+    <!-- Agregar la fuente Poppins de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Cargar scripts de manera asíncrona -->
     <script src="https://cdn.tailwindcss.com" defer></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="preload" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    
+    <!-- Agregar estilos personalizados para aplicar Poppins -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 
 <body class="antialiased">
@@ -88,8 +98,7 @@
         <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
             <!-- Reemplazar las imágenes con versiones optimizadas y lazy loading -->
             <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full transform hover:scale-105 transition-all duration-500"
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&q=80&w=1200"
-                loading="lazy"
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&q=80&w=1200" loading="lazy"
                 alt="Espacio de trabajo">
         </div>
     </div>
@@ -248,8 +257,7 @@
                     <p class="text-center mt-4 text-gray-600 font-medium text-lg">MySQL</p>
                 </div>
                 <div class="tech-icon group" data-aos="zoom-in" data-aos-delay="400">
-                    <img src="{{ asset('tailwind.png') }}"
-                        alt="Tailwind CSS"
+                    <img src="{{ asset('tailwind.png') }}" alt="Tailwind CSS"
                         class="h-32 w-32 transition-transform duration-300 group-hover:scale-110">
                     <p class="text-center mt-4 text-gray-600 font-medium text-lg">Tailwind CSS</p>
                 </div>
@@ -269,19 +277,33 @@
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Artículo 1 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
-                    data-aos="fade-up">
-                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="Blog"
-                        class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Innovación Empresarial</h3>
-                        <p class="text-gray-600 mb-4">Descubre las últimas tendencias en gestión empresarial y
-                            tecnología.</p>
-                        <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Leer más →</a>
+                @forelse($posts as $post)
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 cursor-pointer group"
+                        data-aos="fade-up">
+                        @if($post->image)
+                            <div class="relative overflow-hidden">
+                                <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}"
+                                    class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                            </div>
+                        @endif
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition-colors duration-300">{{ $post->title }}</h3>
+                            <p class="text-gray-600 mb-4">{{ Str::limit($post->content, 100) }}</p>
+                            <button onclick="openModal('{{ $post->title }}', '{{ $post->content }}', '{{ Storage::url($post->image) }}')"
+                                class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center transition-all duration-300 group-hover:translate-x-2">
+                                Leer más
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <!-- Puedes agregar más artículos siguiendo el mismo patrón -->
+                @empty
+                    <div class="col-span-3 text-center text-gray-500">
+                        No hay publicaciones disponibles en este momento.
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -352,6 +374,33 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="postModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3 rounded-lg overflow-hidden relative">
+            <!-- Botón de cerrar -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+
+            <div class="flex flex-col md:flex-row h-full">
+                <!-- Imagen del post (60%) -->
+                <div class="md:w-3/5">
+                    <img id="modalImage" src="" alt="Post Image" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Contenido del post (40%) -->
+                <div class="md:w-2/5 p-8 overflow-y-auto max-h-[80vh]">
+                    <h2 id="modalTitle" class="text-3xl font-bold mb-4"></h2>
+                    <div id="modalContent" class="prose max-w-none text-gray-600"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Footer Mejorado -->
     <footer class="bg-gray-800">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -407,7 +456,7 @@
 
     <!-- Scripts consolidados -->
     <script>
-    // Función para esperar a que el DOM esté cargado
+        // Función para esperar a que el DOM esté cargado
     document.addEventListener('DOMContentLoaded', () => {
         // Inicialización de AOS
         AOS.init({
@@ -475,6 +524,42 @@
             });
         }
     });
+
+    function openModal(title, content, imageUrl) {
+    const modal = document.getElementById('postModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const modalImage = document.getElementById('modalImage');
+
+    modalTitle.textContent = title;
+    modalContent.textContent = content;
+    modalImage.src = imageUrl;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('postModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+}
+
+// Cerrar modal con la tecla Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+
+// Cerrar modal al hacer clic fuera del contenido
+document.getElementById('postModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
     </script>
 
 </body>

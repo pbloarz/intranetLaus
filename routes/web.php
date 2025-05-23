@@ -4,6 +4,7 @@ use App\Http\Controllers\PdfController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/',[PostController::class,'getPublishedPosts'])->name('post.view');
